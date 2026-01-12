@@ -156,6 +156,62 @@
         font-size: clamp(16px, 2vw, 20px);
       }
 
+      .install-card {
+        background: #111;
+        color: #fff;
+        border-radius: 8px;
+        padding: 24px;
+        font-family: "SFMono-Regular", "Menlo", "Monaco", "Courier New", monospace;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      [data-theme="dark"] .install-card {
+        background: #1a1a1a;
+        border: 1px solid #333;
+      }
+
+      .install-cmd {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        color: #e6e6e6;
+      }
+
+      .install-meta {
+        color: #666;
+        padding-top: 16px;
+        border-top: 1px solid #333;
+      }
+
+      .install-note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .copy-btn {
+        background: transparent;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+
       .links {
         display: flex;
         flex-direction: column;
@@ -271,7 +327,21 @@
       <section class="frame section">
         <h3>Installation</h3>
         <div class="content">
-          <pre class="code-block">mkdir -p ~/.claude/skills/rlm &amp;&amp; curl -o ~/.claude/skills/rlm/SKILL.md https://raw.githubusercontent.com/BowTiedSwan/rlm-skill/main/SKILL.md</pre>
+          <div class="install-card">
+            <div class="install-cmd">
+              <span>$ curl -fsSL https://raw.githubusercontent.com/BowTiedSwan/rlm-skill/main/install.sh | bash</span>
+              <button class="copy-btn" aria-label="Copy to clipboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="install-meta">
+              > /rlm
+            </div>
+          </div>
+          <p class="install-note">Auto-detects Claude Code, Cursor, and OpenCode.</p>
         </div>
       </section>
 
@@ -326,6 +396,22 @@
           localStorage.setItem('theme', next);
           updateText(next);
         });
+
+        // Copy button logic
+        const copyBtn = document.querySelector('.copy-btn');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', async () => {
+            const text = document.querySelector('.install-cmd span').innerText.replace('$ ', '');
+            try {
+              await navigator.clipboard.writeText(text);
+              const originalIcon = copyBtn.innerHTML;
+              copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+              setTimeout(() => copyBtn.innerHTML = originalIcon, 2000);
+            } catch (err) {
+              console.error('Failed to copy!', err);
+            }
+          });
+        }
       })();
     </script>
   </body>
