@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RLM Skill</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #ffffff;
+        --fg: #0a0a0a;
+        --muted: #4a4a4a;
+        --border: #e6e6e6;
+        --max-width: 1080px;
+        --gutter: clamp(24px, 6vw, 80px);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(48px, 8vw, 120px);
+        padding: clamp(36px, 6vw, 80px) var(--gutter) clamp(40px, 8vw, 120px);
+      }
+
+      .frame {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: clamp(16px, 3vw, 32px);
+      }
+
+      header {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: clamp(16px, 2vw, 24px);
+      }
+
+      header h1 {
+        font-size: clamp(32px, 6vw, 60px);
+        letter-spacing: -0.03em;
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .hero {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: clamp(16px, 3vw, 32px);
+      }
+
+      .hero h2 {
+        grid-column: 1 / 9;
+        font-size: clamp(36px, 7vw, 76px);
+        letter-spacing: -0.035em;
+        line-height: 1.1;
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .hero p {
+        grid-column: 9 / -1;
+        margin: 0;
+        font-size: clamp(16px, 2vw, 20px);
+        color: var(--muted);
+        align-self: end;
+      }
+
+      .section {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: clamp(16px, 3vw, 32px);
+        align-items: start;
+      }
+
+      .section h3 {
+        grid-column: 1 / 4;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .section .content {
+        grid-column: 4 / -1;
+        font-size: clamp(16px, 2vw, 20px);
+      }
+
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .links a {
+        font-weight: 600;
+        font-size: clamp(16px, 2vw, 20px);
+      }
+
+      .code-block {
+        border: 1px solid var(--border);
+        padding: 20px 24px;
+        font-family: "SFMono-Regular", "Menlo", "Monaco", "Courier New", monospace;
+        font-size: 14px;
+        white-space: pre-wrap;
+        word-break: break-all;
+        margin: 0;
+        background: #f9f9f9;
+      }
+
+      footer {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        border-top: 1px solid var(--border);
+        padding-top: clamp(16px, 2vw, 24px);
+        font-size: 14px;
+      }
+
+      .footer-links {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .github-icon {
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+      }
+
+      @media (max-width: 860px) {
+        .hero h2,
+        .hero p,
+        .section h3,
+        .section .content {
+          grid-column: 1 / -1;
+        }
+
+        .hero p {
+          margin-top: 16px;
+        }
+
+        header {
+          flex-direction: column;
+          gap: 12px;
+          align-items: flex-start;
+        }
+
+        footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="frame">
+        <header>
+          <h1>RLM Skill</h1>
+        </header>
+      </div>
+
+      <section class="frame hero">
+        <h2>Recursive Language Models for Claude Code.</h2>
+        <p>
+          RLM treats code as an external database, letting Claude pull infinite context without
+          context rot or bloated prompts.
+        </p>
+      </section>
+
+      <section class="frame section">
+        <h3>Explanation</h3>
+        <div class="content">
+          RLM turns your codebase into a live, queryable memory layer. Instead of stuffing
+          everything into the prompt window, it fetches only what it needs, keeping responses
+          sharp even as projects grow.
+        </div>
+      </section>
+
+      <section class="frame section">
+        <h3>Links</h3>
+        <div class="content links">
+          <a href="https://arxiv.org/pdf/2512.24601" target="_blank" rel="noreferrer">
+            Read the Paper
+          </a>
+          <a href="https://github.com/Bowtiedswan/rlm-skill" target="_blank" rel="noreferrer">
+            Get the Skill
+          </a>
+        </div>
+      </section>
+
+      <section class="frame section">
+        <h3>Installation</h3>
+        <div class="content">
+          <pre class="code-block">mkdir -p ~/.claude/skills/rlm &amp;&amp; curl -o ~/.claude/skills/rlm/SKILL.md https://raw.githubusercontent.com/Bowtiedswan/rlm-skill/main/SKILL.md</pre>
+        </div>
+      </section>
+
+      <div class="frame">
+        <footer>
+          <a href="https://x.com/Bowtiedswan" target="_blank" rel="noreferrer">Skill by Bowtiedswan</a>
+          <div class="footer-links">
+            <a href="https://github.com/Bowtiedswan/rlm-skill" target="_blank" rel="noreferrer">
+              <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 2C6.48 2 2 6.58 2 12.2c0 4.5 2.87 8.31 6.84 9.66.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.37-3.37-1.37-.46-1.17-1.12-1.48-1.12-1.48-.92-.65.07-.64.07-.64 1.02.07 1.56 1.06 1.56 1.06.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.74-.1-.26-.45-1.32.1-2.75 0 0 .84-.27 2.75 1.04a9.24 9.24 0 0 1 2.5-.35c.85 0 1.7.12 2.5.35 1.9-1.31 2.74-1.04 2.74-1.04.55 1.43.2 2.49.1 2.75.64.71 1.03 1.62 1.03 2.74 0 3.93-2.34 4.8-4.57 5.05.36.32.68.95.68 1.92 0 1.39-.01 2.51-.01 2.85 0 .26.18.58.69.48A10.03 10.03 0 0 0 22 12.2C22 6.58 17.52 2 12 2z"
+                />
+              </svg>
+            </a>
+            <a href="https://github.com/Bowtiedswan/rlm-skill" target="_blank" rel="noreferrer">
+              GitHub Repo
+            </a>
+          </div>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>
