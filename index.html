@@ -11,8 +11,29 @@
         --fg: #0a0a0a;
         --muted: #4a4a4a;
         --border: #e6e6e6;
+        --code-bg: #f9f9f9;
         --max-width: 1080px;
         --gutter: clamp(24px, 6vw, 80px);
+      }
+
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #0a0a0a;
+        --fg: #ffffff;
+        --muted: #a1a1a1;
+        --border: #333333;
+        --code-bg: #161616;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #0a0a0a;
+          --fg: #ffffff;
+          --muted: #a1a1a1;
+          --border: #333333;
+          --code-bg: #161616;
+        }
       }
 
       * {
@@ -25,6 +46,7 @@
         background: var(--bg);
         color: var(--fg);
         line-height: 1.5;
+        transition: background-color 0.2s ease, color 0.2s ease;
       }
 
       a {
@@ -58,7 +80,7 @@
         grid-column: 1 / -1;
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: center;
         border-bottom: 1px solid var(--border);
         padding-bottom: clamp(16px, 2vw, 24px);
       }
@@ -68,6 +90,24 @@
         letter-spacing: -0.03em;
         margin: 0;
         font-weight: 700;
+      }
+
+      .theme-toggle {
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--fg);
+        font-family: inherit;
+        font-size: 14px;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 999px;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        background: var(--fg);
+        color: var(--bg);
+        border-color: var(--fg);
       }
 
       .hero {
@@ -135,7 +175,7 @@
         white-space: pre-wrap;
         word-break: break-all;
         margin: 0;
-        background: #f9f9f9;
+        background: var(--code-bg);
       }
 
       footer {
@@ -173,10 +213,12 @@
           margin-top: 16px;
         }
 
+        /* Keep header minimal on mobile, maybe stacked */
         header {
-          flex-direction: column;
-          gap: 12px;
-          align-items: flex-start;
+          /* flex-direction: column; */
+          /* gap: 12px; */
+          /* align-items: flex-start; */
+          /* Let's keep it row for the toggle */
         }
 
         footer {
@@ -191,6 +233,9 @@
       <div class="frame">
         <header>
           <h1>RLM Skill</h1>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            Theme
+          </button>
         </header>
       </div>
 
@@ -217,7 +262,7 @@
           <a href="https://arxiv.org/pdf/2512.24601" target="_blank" rel="noreferrer">
             Read the Paper
           </a>
-          <a href="https://github.com/Bowtiedswan/rlm-skill" target="_blank" rel="noreferrer">
+          <a href="https://github.com/BowTiedSwan/rlm-skill" target="_blank" rel="noreferrer">
             Get the Skill
           </a>
         </div>
@@ -226,7 +271,7 @@
       <section class="frame section">
         <h3>Installation</h3>
         <div class="content">
-          <pre class="code-block">mkdir -p ~/.claude/skills/rlm &amp;&amp; curl -o ~/.claude/skills/rlm/SKILL.md https://raw.githubusercontent.com/Bowtiedswan/rlm-skill/main/SKILL.md</pre>
+          <pre class="code-block">mkdir -p ~/.claude/skills/rlm &amp;&amp; curl -o ~/.claude/skills/rlm/SKILL.md https://raw.githubusercontent.com/BowTiedSwan/rlm-skill/main/SKILL.md</pre>
         </div>
       </section>
 
@@ -234,7 +279,7 @@
         <footer>
           <a href="https://x.com/Bowtiedswan" target="_blank" rel="noreferrer">Skill by Bowtiedswan</a>
           <div class="footer-links">
-            <a href="https://github.com/Bowtiedswan/rlm-skill" target="_blank" rel="noreferrer">
+            <a href="https://github.com/BowTiedSwan/rlm-skill" target="_blank" rel="noreferrer">
               <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="currentColor"
@@ -242,12 +287,46 @@
                 />
               </svg>
             </a>
-            <a href="https://github.com/Bowtiedswan/rlm-skill" target="_blank" rel="noreferrer">
+            <a href="https://github.com/BowTiedSwan/rlm-skill" target="_blank" rel="noreferrer">
               GitHub Repo
             </a>
           </div>
         </footer>
       </div>
     </main>
+
+    <script>
+      (function() {
+        const toggle = document.getElementById('theme-toggle');
+        const root = document.documentElement;
+        
+        // Helper to update text
+        const updateText = (theme) => {
+          toggle.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+        };
+
+        // 1. Check storage or system
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        let currentTheme = savedTheme || (systemDark ? 'dark' : 'light');
+        
+        // Apply initial
+        if (savedTheme) {
+          root.setAttribute('data-theme', savedTheme);
+        }
+        updateText(currentTheme);
+
+        // 2. Handle click
+        toggle.addEventListener('click', () => {
+          const current = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          const next = current === 'dark' ? 'light' : 'dark';
+          
+          root.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+          updateText(next);
+        });
+      })();
+    </script>
   </body>
 </html>
