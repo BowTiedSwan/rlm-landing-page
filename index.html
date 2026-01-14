@@ -282,6 +282,21 @@
           align-items: flex-start;
         }
       }
+
+      .cursor {
+        display: inline-block;
+        width: 0.6em;
+        height: 1em;
+        background-color: var(--fg);
+        margin-left: 2px;
+        vertical-align: text-bottom;
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
     </style>
   </head>
   <body>
@@ -296,7 +311,7 @@
       </div>
 
       <section class="frame hero">
-        <h2>Recursive Language Models for Claude Code.</h2>
+        <h2>Recursive Language Models for <span id="typing-text">Claude Code</span><span class="cursor"></span></h2>
         <p>
           RLM treats code as an external database, letting Claude pull infinite context without
           context rot or bloated prompts.
@@ -412,6 +427,47 @@
             }
           });
         }
+
+        // Typing effect
+        const words = ["Claude Code", "Opencode", "Codex", "Aider", "Gemini"];
+        let wordIndex = 0;
+        let charIndex = words[0].length;
+        let isDeleting = false;
+        
+        const textElement = document.getElementById('typing-text');
+        
+        function type() {
+          const currentWord = words[wordIndex];
+          
+          if (isDeleting) {
+            textElement.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+          } else {
+            textElement.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+          }
+          
+          let typeSpeed = isDeleting ? 100 : 150;
+          
+          if (!isDeleting && charIndex === currentWord.length) {
+            typeSpeed = 2000; // Pause at end of word
+            isDeleting = true;
+          } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            typeSpeed = 500; // Pause before typing next word
+          }
+          
+          setTimeout(type, typeSpeed);
+        }
+        
+        // Start the loop. 
+        // We start with "Claude Code" fully typed. 
+        // We want to wait, then delete it.
+        // So we set isDeleting = true, and wait 2000ms before calling type()
+        isDeleting = true;
+        setTimeout(type, 2000);
+
       })();
     </script>
   </body>
